@@ -3,37 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Financial Calculators</title>
+    <title>Enhanced Financial Calculators</title>
     <style>
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
           sans-serif;
-        max-width: 1000px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
+        background-color: #f5f5f5;
       }
 
       .container {
         background-color: white;
         border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 20px;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
 
       .tabs {
         display: flex;
-        border-bottom: 1px solid #ddd;
-        margin-bottom: 20px;
+        border-bottom: 2px solid #eee;
+        margin-bottom: 30px;
       }
 
       .tab {
-        padding: 10px 20px;
+        padding: 15px 25px;
         cursor: pointer;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+      }
+
+      .tab:hover {
+        background-color: #f8f9fa;
       }
 
       .tab.active {
-        background-color: #f0f0f0;
-        border-bottom: 2px solid blue;
+        background-color: #f0f8ff;
+        border-bottom: 3px solid #007bff;
+        color: #007bff;
+        font-weight: 600;
       }
 
       .tab-content {
@@ -44,55 +54,225 @@
         display: block;
       }
 
+      .contract-section {
+        margin-bottom: 30px;
+      }
+
+      .contract-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        background-color: #fafafa;
+      }
+
+      .contract-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .contract-title {
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      .remove-btn {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .contract-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+        align-items: end;
+      }
+
+      .field-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .calculation-display {
+        background-color: #e8f5e8;
+        padding: 10px;
+        border-radius: 4px;
+        font-weight: 600;
+        text-align: center;
+        border: 1px solid #c3e6c3;
+      }
+
+      .add-contract-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+
+      .summary-card {
+        background-color: #e3f2fd;
+        border: 1px solid #bbdefb;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .summary-total {
+        border-top: 2px solid #1976d2;
+        padding-top: 10px;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .cost-highlight {
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .cost-value {
+        font-size: 18px;
+        font-weight: bold;
+        color: #856404;
+      }
+
+      .tax-config {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
       table {
         margin-top: 20px;
         width: 100%;
         border-collapse: collapse;
-        border: 1px solid #eaeaea;
-        border-radius: 6px;
-      }
-
-      td {
-        padding: 12px 16px;
-        border-bottom: 1px solid #eaeaea;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
       }
 
       th {
-        background-color: #f9fafb;
+        background-color: #f8f9fa;
         text-align: left;
-        padding: 12px 16px;
+        padding: 15px;
         font-weight: 600;
-        border-bottom: 1px solid #eaeaea;
+        border-bottom: 2px solid #dee2e6;
+      }
+
+      td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
       }
 
       tr:hover {
-        background-color: #f9fafb;
+        background-color: #f8f9fa;
+      }
+
+      tr:nth-child(even) {
+        background-color: #fdfdfd;
       }
 
       input,
       select {
         width: 100%;
-        max-width: 250px;
-        padding: 8px 12px;
+        padding: 10px 12px;
         border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 16px;
-        margin-bottom: 10px;
+        border-radius: 6px;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      }
+
+      label {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 5px;
       }
 
       button {
-        padding: 8px 16px;
-        background-color: blue;
+        padding: 12px 20px;
+        background-color: #007bff;
         color: white;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .results-section {
+        margin-top: 30px;
+      }
+
+      .result-highlight {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      @media (max-width: 768px) {
+        .contract-fields {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        
+        .container {
+          padding: 15px;
+        }
+        
+        table {
+          font-size: 14px;
+        }
+        
+        th, td {
+          padding: 8px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Financial Calculators</h1>
+      <h1>Enhanced Financial Calculators</h1>
 
       <div class="tabs">
         <div class="tab active" onclick="switchTab('scaling-calculator')">
@@ -103,21 +283,51 @@
         </div>
       </div>
 
-      <!-- Scaling Calculator Tab -->
+      <!-- Enhanced Scaling Calculator Tab -->
       <div id="scaling-calculator" class="tab-content active">
-        <h2>Scaling Calculator</h2>
+        <h2>Enhanced Scaling Calculator</h2>
 
-        <div>
-          <label for="base-value">Base Value ($):</label>
-          <input id="base-value" type="number" step="0.01" value="1.27" />
+        <div class="contract-section">
+          <h3>Contract Configuration</h3>
+          <div id="contracts-container">
+            <!-- Contracts will be dynamically added here -->
+          </div>
+          
+          <button class="add-contract-btn" onclick="addContract()">
+            + Add Contract
+          </button>
+
+          <div class="tax-config">
+            <h4 style="margin-top: 0;">Tax Configuration</h4>
+            <div class="input-group">
+              <label for="tax-rate">Tax Rate per Contract ($):</label>
+              <input id="tax-rate" type="number" step="0.01" value="0.5" onchange="updateSummary()" />
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <h4 style="margin-top: 0;">Summary</h4>
+            <div class="summary-row">
+              <span>Total Base Value:</span>
+              <span id="total-base-value">$0.00</span>
+            </div>
+            <div class="summary-row">
+              <span id="tax-label">Total Tax (0.5 × no of contracts):</span>
+              <span id="total-tax">$0.00</span>
+            </div>
+            <div class="summary-row summary-total">
+              <span>Net Base Value:</span>
+              <span id="net-base-value">$0.00</span>
+            </div>
+          </div>
+
+          <div class="cost-highlight">
+            <div style="margin-bottom: 5px;">Total Cost (Sum of Calculations)</div>
+            <div class="cost-value" id="total-cost">$0.00</div>
+          </div>
+
+          <button onclick="updateScalingTable()">Calculate Scaling</button>
         </div>
-
-        <div>
-          <label for="base-points">Base Points:</label>
-          <input id="base-points" type="number" value="765" />
-        </div>
-
-        <button onclick="updateScalingTable()">Calculate</button>
 
         <table>
           <thead>
@@ -126,6 +336,7 @@
               <th>Price ($)</th>
               <th>Target Profit</th>
               <th>Difference</th>
+              <th>Actual Profit</th>
             </tr>
           </thead>
           <tbody id="scaling-table-body">
@@ -138,36 +349,38 @@
       <div id="options-simulator" class="tab-content">
         <h2>Options Trading Simulator</h2>
 
-        <div>
-          <label for="starting-capital">Starting Capital ($):</label>
-          <input id="starting-capital" type="number" value="1300" />
-        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+          <div class="input-group">
+            <label for="starting-capital">Starting Capital ($):</label>
+            <input id="starting-capital" type="number" value="1300" />
+          </div>
 
-        <div>
-          <label for="target-capital">Target Capital ($):</label>
-          <input id="target-capital" type="number" value="100000" />
-        </div>
+          <div class="input-group">
+            <label for="target-capital">Target Capital ($):</label>
+            <input id="target-capital" type="number" value="100000" />
+          </div>
 
-        <div>
-          <label for="return-rate">Return Rate (%):</label>
-          <input id="return-rate" type="number" step="0.1" value="20" />
-        </div>
+          <div class="input-group">
+            <label for="return-rate">Return Rate (%):</label>
+            <input id="return-rate" type="number" step="0.1" value="20" />
+          </div>
 
-        <div>
-          <label for="period-type">Period Type:</label>
-          <select id="period-type">
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-          </select>
+          <div class="input-group">
+            <label for="period-type">Period Type:</label>
+            <select id="period-type">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
         </div>
 
         <button onclick="calculateGrowth()">Calculate Growth</button>
 
-        <div id="results" style="margin-top: 20px">
-          <p id="periods-result"></p>
+        <div id="results" class="results-section">
+          <div id="periods-result" class="result-highlight" style="display: none;"></div>
 
-          <table>
+          <table style="display: none;" id="growth-table">
             <thead>
               <tr>
                 <th>Period</th>
@@ -185,60 +398,169 @@
     </div>
 
     <script>
+      let contractCounter = 1;
+      let contracts = [{ id: 1, quantity: 1, baseValue: 1.27 }];
+
       // Tab switching functionality
       function switchTab(tabId) {
-        // Hide all tab contents
         document.querySelectorAll('.tab-content').forEach((content) => {
           content.classList.remove('active');
         });
 
-        // Deactivate all tabs
         document.querySelectorAll('.tab').forEach((tab) => {
           tab.classList.remove('active');
         });
 
-        // Activate the selected tab and content
         document.getElementById(tabId).classList.add('active');
         document
           .querySelector(`.tab[onclick="switchTab('${tabId}')"]`)
           .classList.add('active');
       }
 
-      // Scaling Calculator functionality
+      // Contract management
+      function addContract() {
+        contractCounter++;
+        contracts.push({ id: contractCounter, quantity: 1, baseValue: 1.27 });
+        renderContracts();
+        updateSummary();
+      }
+
+      function removeContract(id) {
+        if (contracts.length > 1) {
+          contracts = contracts.filter(c => c.id !== id);
+          renderContracts();
+          updateSummary();
+        }
+      }
+
+      function updateContract(id, field, value) {
+        const contract = contracts.find(c => c.id === id);
+        if (contract) {
+          contract[field] = parseFloat(value) || 0;
+          updateContractCalculation(id);
+          updateSummary();
+        }
+      }
+
+      function updateContractCalculation(id) {
+        const contract = contracts.find(c => c.id === id);
+        if (contract) {
+          const calculation = contract.quantity * 100 * contract.baseValue;
+          document.getElementById(`calc-${id}`).textContent = `$${calculation.toFixed(2)}`;
+        }
+      }
+
+      function renderContracts() {
+        const container = document.getElementById('contracts-container');
+        container.innerHTML = '';
+
+        contracts.forEach((contract, index) => {
+          const contractDiv = document.createElement('div');
+          contractDiv.className = 'contract-card';
+          contractDiv.innerHTML = `
+            <div class="contract-header">
+              <div class="contract-title">Contract ${index + 1}</div>
+              ${contracts.length > 1 ? `<button class="remove-btn" onclick="removeContract(${contract.id})">Remove</button>` : ''}
+            </div>
+            <div class="contract-fields">
+              <div class="field-group">
+                <label>Quantity</label>
+                <input type="number" value="${contract.quantity}" 
+                       onchange="updateContract(${contract.id}, 'quantity', this.value)" />
+              </div>
+              <div class="field-group">
+                <label>Base Value ($)</label>
+                <input type="number" step="0.01" value="${contract.baseValue}" 
+                       onchange="updateContract(${contract.id}, 'baseValue', this.value)" />
+              </div>
+              <div class="field-group">
+                <label>Calculation</label>
+                <div class="calculation-display" id="calc-${contract.id}">
+                  $${(contract.quantity * 100 * contract.baseValue).toFixed(2)}
+                </div>
+              </div>
+            </div>
+          `;
+          container.appendChild(contractDiv);
+        });
+      }
+
+      function getTaxRate() {
+        return parseFloat(document.getElementById('tax-rate').value) || 0.5;
+      }
+
+      function calculateTotalBaseValue() {
+        return contracts.reduce((sum, contract) => sum + (contract.quantity * 100 * contract.baseValue), 0);
+      }
+
+      function calculateTotalTax() {
+        const taxRate = getTaxRate();
+        return contracts.reduce((sum, contract) => sum + (taxRate * contract.quantity), 0);
+      }
+
+      function getNetBaseValue() {
+        return calculateTotalBaseValue() + (calculateTotalTax() * 2);
+      }
+
+      function getAverageBaseValue() {
+        const totalQuantityValue = contracts.reduce((sum, contract) => sum + (contract.quantity * contract.baseValue), 0);
+        const totalQuantity = contracts.reduce((sum, contract) => sum + contract.quantity, 0);
+        
+        if (totalQuantity === 0) return 0;
+        const average = totalQuantityValue / totalQuantity;
+        return Math.round(average * 100) / 100; // Round to 2 decimal places
+      }
+
+      function getTotalCost() {
+        return calculateTotalBaseValue(); // This is the sum of all calculations
+      }
+
+      function updateSummary() {
+        const taxRate = getTaxRate();
+        document.getElementById('tax-label').textContent = `Total Tax (${taxRate} × no of contracts):`;
+        document.getElementById('total-base-value').textContent = `$${calculateTotalBaseValue().toFixed(2)}`;
+        document.getElementById('total-tax').textContent = `$${calculateTotalTax().toFixed(2)}`;
+        document.getElementById('net-base-value').textContent = `$${getNetBaseValue().toFixed(2)}`;
+        document.getElementById('total-cost').textContent = `$${getTotalCost().toFixed(2)}`;
+        updateScalingTable();
+      }
+
+      // Enhanced scaling calculator functionality
       function updateScalingTable() {
-        const baseValue =
-          parseFloat(document.getElementById('base-value').value) || 1.27;
-        const basePoints =
-          parseFloat(document.getElementById('base-points').value) || 765;
+        const averageBaseValue = getAverageBaseValue();
+        const totalCost = getTotalCost();
+        const totalTax = calculateTotalTax();
         const tableBody = document.getElementById('scaling-table-body');
 
-        // Clear existing table rows
         tableBody.innerHTML = '';
 
-        // Generate new table rows
         for (let i = 0; i <= 20; i++) {
           const percentIncrease = i * 10;
-          const price = baseValue * (1 + percentIncrease / 100);
-          const points = (price / baseValue) * basePoints;
-          const difference = points - basePoints;
+          const priceRaw = averageBaseValue * (1 + percentIncrease / 100);
+          const price = Math.round(priceRaw * 100) / 100; // Round to 2 decimal places
+          const targetProfit = (price / averageBaseValue) * totalCost;
+          const difference = targetProfit - totalCost;
+          const actualProfit = difference - (totalTax * 2);
 
           const row = document.createElement('tr');
           row.innerHTML = `
-          <td>${percentIncrease}%</td>
-          <td>$${price.toFixed(2)}</td>
-          <td>$${points.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}</td>
-          <td>$${
-            percentIncrease === 0
-              ? '0'
-              : difference.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })
-          }</td>
-        `;
+            <td>${percentIncrease}%</td>
+            <td>$${price.toFixed(2)}</td>
+            <td>$${targetProfit.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}</td>
+            <td>${percentIncrease === 0 ? '$0.00' : 
+              '$' + difference.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</td>
+            <td>${percentIncrease === 0 ? '$' + (-totalTax).toFixed(2) : 
+              '$' + actualProfit.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</td>
+          `;
 
           tableBody.appendChild(row);
         }
@@ -246,59 +568,57 @@
 
       // Options Trading Simulator functionality
       function calculateGrowth() {
-        const startingCapital =
-          parseFloat(document.getElementById('starting-capital').value) || 1300;
-        const targetCapital =
-          parseFloat(document.getElementById('target-capital').value) || 100000;
-        const returnRate =
-          parseFloat(document.getElementById('return-rate').value) || 20;
+        const startingCapital = parseFloat(document.getElementById('starting-capital').value) || 1300;
+        const targetCapital = parseFloat(document.getElementById('target-capital').value) || 100000;
+        const returnRate = parseFloat(document.getElementById('return-rate').value) || 20;
         const periodType = document.getElementById('period-type').value;
 
-        // Calculate number of periods needed
         const r = returnRate / 100;
-        const n = Math.ceil(
-          Math.log(targetCapital / startingCapital) / Math.log(1 + r)
-        );
+        const n = Math.ceil(Math.log(targetCapital / startingCapital) / Math.log(1 + r));
 
-        // Update results display
-        document.getElementById(
-          'periods-result'
-        ).textContent = `It will take approximately ${n} ${periodType} periods to reach your target.`;
+        const resultsDiv = document.getElementById('periods-result');
+        resultsDiv.textContent = `It will take approximately ${n} ${periodType} periods to reach your target.`;
+        resultsDiv.style.display = 'block';
 
-        // Generate growth table
         const tableBody = document.getElementById('growth-table-body');
+        const table = document.getElementById('growth-table');
         tableBody.innerHTML = '';
 
         let currentBalance = startingCapital;
 
-        for (let i = 1; i <= Math.min(n); i++) {
+        for (let i = 1; i <= Math.min(n, 50); i++) {
           const startBalance = currentBalance;
           const profit = startBalance * r;
           currentBalance = startBalance + profit;
 
           const row = document.createElement('tr');
           row.innerHTML = `
-          <td>Period ${i}</td>
-          <td>$${startBalance.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}</td>
-          <td>$${currentBalance.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}</td>
-          <td>$${profit.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}</td>
-        `;
+            <td>Day ${i}</td>
+            <td>$${startBalance.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}</td>
+            <td>$${currentBalance.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}</td>
+            <td>$${profit.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}</td>
+          `;
 
           tableBody.appendChild(row);
         }
+
+        table.style.display = 'table';
       }
 
-      // Initialize the scaling table when the page loads
-      document.addEventListener('DOMContentLoaded', updateScalingTable);
+      // Initialize the page
+      document.addEventListener('DOMContentLoaded', function() {
+        renderContracts();
+        updateSummary();
+      });
     </script>
   </body>
 </html>
