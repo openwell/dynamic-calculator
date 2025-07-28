@@ -526,45 +526,86 @@
       }
 
       // Enhanced scaling calculator functionality
+      // function updateScalingTable() {
+      //   const averageBaseValue = getAverageBaseValue();
+      //   const totalCost = getTotalCost();
+      //   const totalTax = calculateTotalTax();
+      //   const tableBody = document.getElementById('scaling-table-body');
+
+      //   tableBody.innerHTML = '';
+
+      //   for (let i = 0; i <= 20; i++) {
+      //     const percentIncrease = i * 10;
+      //     const priceRaw = averageBaseValue * (1 + percentIncrease / 100);
+      //     const price = Math.round(priceRaw * 100) / 100; // Round to 2 decimal places
+      //     const targetProfit = (price / averageBaseValue) * totalCost;
+      //     const difference = targetProfit - totalCost;
+      //     const actualProfit = difference - (totalTax * 2);
+
+      //     const row = document.createElement('tr');
+      //     row.innerHTML = `
+      //       <td>${percentIncrease}%</td>
+      //       <td>$${price.toFixed(2)}</td>
+      //       <td>$${targetProfit.toLocaleString(undefined, {
+      //         minimumFractionDigits: 2,
+      //         maximumFractionDigits: 2,
+      //       })}</td>
+      //       <td>${percentIncrease === 0 ? '$0.00' : 
+      //         '$' + difference.toLocaleString(undefined, {
+      //           minimumFractionDigits: 2,
+      //           maximumFractionDigits: 2,
+      //         })}</td>
+      //       <td>${percentIncrease === 0 ? '$' + (-totalTax).toFixed(2) : 
+      //         '$' + actualProfit.toLocaleString(undefined, {
+      //           minimumFractionDigits: 2,
+      //           maximumFractionDigits: 2,
+      //         })}</td>
+      //     `;
+
+      //     tableBody.appendChild(row);
+      //   }
+      // }
       function updateScalingTable() {
-        const averageBaseValue = getAverageBaseValue();
-        const totalCost = getTotalCost();
-        const totalTax = calculateTotalTax();
-        const tableBody = document.getElementById('scaling-table-body');
-
-        tableBody.innerHTML = '';
-
-        for (let i = 0; i <= 20; i++) {
-          const percentIncrease = i * 10;
-          const priceRaw = averageBaseValue * (1 + percentIncrease / 100);
-          const price = Math.round(priceRaw * 100) / 100; // Round to 2 decimal places
-          const targetProfit = (price / averageBaseValue) * totalCost;
-          const difference = targetProfit - totalCost;
-          const actualProfit = difference - (totalTax * 2);
-
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${percentIncrease}%</td>
-            <td>$${price.toFixed(2)}</td>
-            <td>$${targetProfit.toLocaleString(undefined, {
+      const averageBaseValue = getAverageBaseValue();
+      const totalCost = getTotalCost();
+      const totalTax = calculateTotalTax();
+      const tableBody = document.getElementById('scaling-table-body');
+    
+      tableBody.innerHTML = '';
+    
+      // Define the custom percentages you want to use
+      const percentIncreases = [0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,120,140,160,180,200];
+    
+      percentIncreases.forEach((percentIncrease) => {
+        const priceRaw = averageBaseValue * (1 + percentIncrease / 100);
+        const price = Math.round(priceRaw * 100) / 100; // Round to 2 decimal places
+        const targetProfit = (price / averageBaseValue) * totalCost;
+        const difference = targetProfit - totalCost;
+        const actualProfit = difference - (totalTax * 2);
+    
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${percentIncrease}%</td>
+          <td>$${price.toFixed(2)}</td>
+          <td>$${targetProfit.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}</td>
+          <td>${percentIncrease === 0 ? '$0.00' : 
+            '$' + difference.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}</td>
-            <td>${percentIncrease === 0 ? '$0.00' : 
-              '$' + difference.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}</td>
-            <td>${percentIncrease === 0 ? '$' + (-totalTax).toFixed(2) : 
-              '$' + actualProfit.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}</td>
-          `;
-
-          tableBody.appendChild(row);
-        }
-      }
+          <td>${percentIncrease === 0 ? '$' + (-totalTax).toFixed(2) : 
+            '$' + actualProfit.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}</td>
+        `;
+    
+        tableBody.appendChild(row);
+      });
+    }
 
       // Options Trading Simulator functionality
       function calculateGrowth() {
