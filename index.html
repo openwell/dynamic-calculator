@@ -497,7 +497,7 @@
 
         let currentBalance = startingCapital;
 
-        for (let i = 1; i <= Math.min(n, 100); i++) {
+        for (let i = 1; i <= n; i++) {
           const startBalance = currentBalance;
           const profit = startBalance * r;
           currentBalance = startBalance + profit;
